@@ -1,5 +1,0 @@
-apiVersion: v2
-name: odoo-connect
-description: Helm chart for odoo-connect
-type: application
-version: 1.0.0

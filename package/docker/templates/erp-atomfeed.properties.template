@@ -2,7 +2,7 @@
 jdbc.driverClassName=org.postgresql.Driver
 jdbc.username=${ODOO_DB_USERNAME}
 jdbc.password=${ODOO_DB_PASSWORD}
-jdbc.url=jdbc:postgresql://${ODOO_DB_SERVER}/${ODOO_DB_NAME}
+jdbc.url=jdbc:postgresql://${ODOO_DB_SERVER}/odoo
 update.atomfeed.marker=false
 
 atomdb.show_sql=false
@@ -28,14 +28,12 @@ drug.feed.generator.uri=http://${OPENMRS_HOST}:${OPENMRS_PORT}/openmrs/ws/atomfe
 lab.feed.generator.uri=http://${OPENMRS_HOST}:${OPENMRS_PORT}/openmrs/ws/atomfeed/lab/recent
 saleable.feed.generator.uri=http://${OPENMRS_HOST}:${OPENMRS_PORT}/openmrs/ws/atomfeed/saleable/recent
 drugorder.uri=http://${OPENMRS_HOST}:${OPENMRS_PORT}/openmrs/ws/rest/v1/bahmnicore/drugOrders
-order.attribute.uri=http://${OPENMRS_HOST}:${OPENMRS_PORT}/openmrs/ws/rest/v1/order
-order.billingExempt.attributeName=${BILLING_EXEMPT_ATTRIBUTE_NAME}
 
 chunking.strategy=number
 
 openerp.port=${ODOO_PORT}
 openerp.host=${ODOO_HOST}
-openerp.database=${ODOO_DB_NAME}
+openerp.database=odoo
 openerp.user=${ODOO_ATOMFEED_USER}
 openerp.password=${ODOO_ATOMFEED_PASSWORD}
 openerp.connectionTimeoutInMilliseconds=5000
@@ -55,7 +53,7 @@ scheduler.sale.order.cron.expression=${SCHEDULER_SALE_ORDER_CRON_EXPRESSION:0/30
 
 referencedata.endpoint=http://${OPENMRS_HOST}:${OPENMRS_PORT}/reference-data
 
-spring.datasource.url=jdbc:postgresql://${ODOO_DB_SERVER}/${ODOO_DB_NAME}
+spring.datasource.url=jdbc:postgresql://${ODOO_DB_SERVER}/odoo
 spring.datasource.username=${ODOO_DB_USERNAME}
 spring.datasource.password=${ODOO_DB_PASSWORD}
 spring.datasource.driver-class-name=org.postgresql.Driver

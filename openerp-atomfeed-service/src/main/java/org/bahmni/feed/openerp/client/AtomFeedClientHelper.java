@@ -17,12 +17,9 @@ import org.ict4h.atomfeed.client.repository.jdbc.AllFailedEventsJdbcImpl;
 import org.ict4h.atomfeed.client.repository.jdbc.AllMarkersJdbcImpl;
 import org.ict4h.atomfeed.client.service.FeedClient;
 import org.ict4h.atomfeed.server.transaction.AtomFeedSpringTransactionSupport;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.env.Environment;
 
-public class AtomFeedClientHelper implements ApplicationContextAware {
+public class AtomFeedClientHelper {
     private final OpenERPAtomFeedProperties atomFeedProperties;
     private final AtomFeedSpringTransactionSupport transactionManager;
     private final OpenERPXMLClient openERPXMLClient;
@@ -30,12 +27,6 @@ public class AtomFeedClientHelper implements ApplicationContextAware {
     private FeedClientFactory feedClientFactory;
     private final WebClientProvider webClientProvider;
     private final Environment environment;
-    private ApplicationContext applicationContext;
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
 
     public AtomFeedClientHelper(OpenERPAtomFeedProperties atomFeedProperties, Environment environment, AtomFeedSpringTransactionSupport transactionManager, OpenERPXMLClient openERPXMLClient, OdooRESTClient odooRESTClient) {
         this.atomFeedProperties = atomFeedProperties;
@@ -47,8 +38,8 @@ public class AtomFeedClientHelper implements ApplicationContextAware {
     }
 
     public FeedClient getAtomFeedClient(Jobs jobName) throws FeedException {
-        if (this.feedClientFactory == null) {
-            WorkerFactory workerFactory = new WorkerFactory(webClientProvider, applicationContext);
+        if(this.feedClientFactory == null){
+            WorkerFactory workerFactory = new WorkerFactory(webClientProvider);
             feedClientFactory = new FeedClientFactory(workerFactory);
         }
         return getAtomFeedClient(jobName, feedClientFactory);
