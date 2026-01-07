@@ -27,7 +27,7 @@ public class MapERPOrders extends OpenMRSEncounterEvent {
     private OpenMRSVisit openMRSVisit;
     private OpenMRSWebClient openMRSWebClient;
     private OpenERPAtomFeedProperties openERPAtomFeedProperties;
-    private static Logger logger = LoggerFactory.getLogger(MapERPOrders.class);
+    private static java.util.logging.Logger logger = LoggerFactory.getLogger(MapERPOrders.class);
 
     public MapERPOrders(OpenMRSEncounter openMRSEncounter, OpenMRSVisit openMRSVisit, OpenMRSWebClient openMRSWebClient, OpenERPAtomFeedProperties openERPAtomFeedProperties, Boolean isOdoo16) {
         this.openMRSEncounter = openMRSEncounter;
@@ -53,6 +53,7 @@ public class MapERPOrders extends OpenMRSEncounterEvent {
 
 
     private String mapOpenERPOrders() throws IOException {
+        logger.info("Inside mapOpenERPOrders");
         OpenERPOrders openERPOrders = new OpenERPOrders(openMRSEncounter.getEncounterUuid());
         List<Provider> providers = openMRSEncounter.getProviders();
         String billingExemptAttributeName = openERPAtomFeedProperties.getBillingExemptAttributeName();

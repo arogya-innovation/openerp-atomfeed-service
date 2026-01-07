@@ -77,7 +77,7 @@ public class OpenERPSaleOrderEventWorker implements EventWorker {
 
         String visitURL = "/openmrs/ws/rest/v1/visit/" + openMRSEncounter.getVisitUuid() + "?v=full";
         String visitContent = webClient.get(URI.create(urlPrefix + visitURL));
-
+        logger.info("Above mapERPOrders");
         OpenMRSVisit openMRSVisit = ObjectMapperRepository.objectMapper.readValue(visitContent, OpenMRSVisit.class);
         MapERPOrders mapERPOrders = new MapERPOrders(openMRSEncounter, openMRSVisit, webClient, openERPAtomFeedProperties, isOdoo16);
 
