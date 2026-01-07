@@ -21,13 +21,12 @@ import java.util.List;
 import java.util.Map;
 
 public class MapERPOrders extends OpenMRSEncounterEvent {
-
+    private static Logger logger = LoggerFactory.getLogger(MapERPOrders.class);
     private final Boolean isOdoo16;
     private OpenMRSEncounter openMRSEncounter;
     private OpenMRSVisit openMRSVisit;
     private OpenMRSWebClient openMRSWebClient;
     private OpenERPAtomFeedProperties openERPAtomFeedProperties;
-    private static java.util.logging.Logger logger = LoggerFactory.getLogger(MapERPOrders.class);
 
     public MapERPOrders(OpenMRSEncounter openMRSEncounter, OpenMRSVisit openMRSVisit, OpenMRSWebClient openMRSWebClient, OpenERPAtomFeedProperties openERPAtomFeedProperties, Boolean isOdoo16) {
         this.openMRSEncounter = openMRSEncounter;
