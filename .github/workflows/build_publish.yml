@@ -47,59 +47,59 @@ jobs:
           platforms: linux/amd64,linux/arm64
           file: package/docker/Dockerfile
           push: true
-          tags: bahmni/odoo-connect:${{env.ARTIFACT_VERSION}},bahmni/odoo-connect:latest
+          tags: anish1091/odoo-connect:${{env.ARTIFACT_VERSION}},anish1091/odoo-connect:latest
 
-      - name: Update Version and Image Tag
-        run: |
-          yq --inplace '.image.tag = "${{ env.ARTIFACT_VERSION }}"' $HELM_CHART_PATH/values.yaml
-          yq --inplace '.version = "${{ env.ARTIFACT_VERSION }}"' $HELM_CHART_PATH/Chart.yaml
-      - name: Helm Lint
-        run: helm lint $HELM_CHART_PATH
+      # - name: Update Version and Image Tag
+      #   run: |
+      #     yq --inplace '.image.tag = "${{ env.ARTIFACT_VERSION }}"' $HELM_CHART_PATH/values.yaml
+      #     yq --inplace '.version = "${{ env.ARTIFACT_VERSION }}"' $HELM_CHART_PATH/Chart.yaml
+      # - name: Helm Lint
+      #   run: helm lint $HELM_CHART_PATH
 
-      - name: Helm Package
-        run: helm package $HELM_CHART_PATH
+      # - name: Helm Package
+      #   run: helm package $HELM_CHART_PATH
 
-      - name: Checkout Charts Repository
-        uses: actions/checkout@v2
-        with:
-          repository: Bahmni/helm-charts
-          ref: gh-pages
-          path: helm-charts
-          persist-credentials: false
+      # - name: Checkout Charts Repository
+      #   uses: actions/checkout@v2
+      #   with:
+      #     repository: Bahmni/helm-charts
+      #     ref: gh-pages
+      #     path: helm-charts
+      #     persist-credentials: false
 
-      - name: Copy Helm Archive
-        run: mkdir -p helm-charts/odoo-connect/ && cp odoo-connect-${{ env.ARTIFACT_VERSION }}.tgz helm-charts/odoo-connect/
+      # - name: Copy Helm Archive
+      #   run: mkdir -p helm-charts/odoo-connect/ && cp odoo-connect-${{ env.ARTIFACT_VERSION }}.tgz helm-charts/odoo-connect/
 
-      - name: Helm Index
-        working-directory: helm-charts/
-        run: helm repo index --merge index.yaml --url https://bahmni.github.io/helm-charts/  .
+      # - name: Helm Index
+      #   working-directory: helm-charts/
+      #   run: helm repo index --merge index.yaml --url https://bahmni.github.io/helm-charts/  .
 
-      - name: Commit and Push Chart Repository
-        working-directory: helm-charts/
-        run: |
-          git config user.name ${{ secrets.BAHMNI_USERNAME}}
-          git config user.email ${{ secrets.BAHMNI_EMAIL}}
-          git add .
-          git commit -m "Release of odoo-${{ env.ARTIFACT_VERSION }}"
-          git push 'https://${{ secrets.BAHMNI_USERNAME}}:${{ secrets.BAHMNI_PAT}}@github.com/bahmni/helm-charts.git' gh-pages     
+      # - name: Commit and Push Chart Repository
+      #   working-directory: helm-charts/
+      #   run: |
+      #     git config user.name ${{ secrets.BAHMNI_USERNAME}}
+      #     git config user.email ${{ secrets.BAHMNI_EMAIL}}
+      #     git add .
+      #     git commit -m "Release of odoo-${{ env.ARTIFACT_VERSION }}"
+      #     git push 'https://${{ secrets.BAHMNI_USERNAME}}:${{ secrets.BAHMNI_PAT}}@github.com/bahmni/helm-charts.git' gh-pages     
     
-  trigger-workflow:
-    name: Trigger workflow to deploy to docker env
-    needs: 
-      - docker-build-publish
-    runs-on: ubuntu-latest
-    env:
-      ORG_NAME: Bahmni
-      REPOSITORY_NAME: bahmni-docker
-      EVENT_TYPE: odoo-connect-publish-event
-    steps:
-      - name: Create repository_dispatch
-        run: |
-          trigger_result=$(curl -s -o trigger_response.txt -w "%{http_code}" -X POST -H "Accept: application/vnd.github.v3+json" -H 'authorization: Bearer ${{ secrets.BAHMNI_PAT }}' https://api.github.com/repos/${ORG_NAME}/${REPOSITORY_NAME}/dispatches -d '{"event_type":"'"${EVENT_TYPE}"'"}')
-          if [ $trigger_result == 204 ];then
-            echo "Trigger to $ORG_NAME/$REPOSITORY_NAME Success"
-          else
-            echo "Trigger to $ORG_NAME/$REPOSITORY_NAME Failed"
-            cat trigger_response.txt
-            exit 1
-          fi
+  # trigger-workflow:
+  #   name: Trigger workflow to deploy to docker env
+  #   needs: 
+  #     - docker-build-publish
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     ORG_NAME: Bahmni
+  #     REPOSITORY_NAME: bahmni-docker
+  #     EVENT_TYPE: odoo-connect-publish-event
+  #   steps:
+  #     - name: Create repository_dispatch
+  #       run: |
+  #         trigger_result=$(curl -s -o trigger_response.txt -w "%{http_code}" -X POST -H "Accept: application/vnd.github.v3+json" -H 'authorization: Bearer ${{ secrets.BAHMNI_PAT }}' https://api.github.com/repos/${ORG_NAME}/${REPOSITORY_NAME}/dispatches -d '{"event_type":"'"${EVENT_TYPE}"'"}')
+  #         if [ $trigger_result == 204 ];then
+  #           echo "Trigger to $ORG_NAME/$REPOSITORY_NAME Success"
+  #         else
+  #           echo "Trigger to $ORG_NAME/$REPOSITORY_NAME Failed"
+  #           cat trigger_response.txt
+  #           exit 1
+  #         fi
