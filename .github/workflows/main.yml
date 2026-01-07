@@ -47,7 +47,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           file: package/docker/Dockerfile
           push: true
-          tags: anish1091/odoo-connect:${{env.ARTIFACT_VERSION}},anish1091/odoo-connect:latest
+          tags: anish443/odoo-connect:${{env.ARTIFACT_VERSION}},anish443/odoo-connect:latest
 
       # - name: Update Version and Image Tag
       #   run: |
